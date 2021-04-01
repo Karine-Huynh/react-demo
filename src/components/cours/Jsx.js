@@ -1,49 +1,63 @@
 import React, {Component} from 'react';
+import FormInput from "../forms/FormInput";
 
 class Jsx extends Component {
     constructor() {
         super();
         this.state = {
-            isVisible: true
+            isVisible: true,
+            contact: {
+                nom: '',
+                phone: '',
+                email: ''
+            }
         }
 
-        this.secondToggleName = this.secondToggleName.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
-    toggleName = () => {
-        this.setState({isVisible: !this.state.isVisible});
-    }
 
-    secondToggleName() {
-       this.toggleName();
-    }
-
-    passParam = (id, e) => {
+    submit(e) {
         e.preventDefault();
-        console.log(e);
-        console.log(id);
+        // récupérer les input du formulaire
+        const inputs = e.target.querySelectorAll('input');
+        // boucler autour des inputs
+        // créer un objet contact
+        const contact = {};
+        inputs.forEach(input => {
+            // assigné les valeurs des inputs a leur name dans l'objet contact
+            contact[input.name] = input.value;
+        });
+
+        // et les mettre dans le state. (Syntaxe moderne)
+        this.setState({contact});
     }
+
 
     render() {
-        // const test = [1, 2, 3, 4,5 ,6, 7, 8, 9];
-        // const num = 35;
-        // const num2 = 24;
-        const name = 'John Doe';
-        const {isVisible} = this.state;
         return (
-            <div>
-                {/*{test.map((item, index) =>*/}
-                {/*    <span key={index}>{item}</span>*/}
-                {/*)}*/}
-                {/*{num} + {num2} = {num + num2}*/}
-                {isVisible ? <p>{name}</p> : null}
+            <form onSubmit={this.submit}>
+                <FormInput
+                    type="nom"
+                    label="Votre Nom"
+                    id="nom"
+                    name="nom"
+                    placeholder="Votre Nom"/>
+                <FormInput
+                    type="email"
+                    label="Votre Email"
+                    id="email"
+                    name="email"
+                    placeholder="Votre Email"/>
+                <FormInput
+                    type="tel"
+                    label="Votre Téléphone"
+                    id="phone"
+                    name="phone"
+                    placeholder="Votre Téléphone"/>
 
-                <button onClick={this.toggleName} className="btn btn-success">Enregistrer</button>
-                <button onClick={this.secondToggleName} className="btn btn-success">Enregistrer aussi</button>
-
-
-                <button onClick={this.passParam.bind(this, 1)} className="btn btn-warning">Enregistrer ID</button>
-            </div>
+                <button type="submit" className="btn btn-primary">Submit</button>
+            </form>
         );
     }
 }

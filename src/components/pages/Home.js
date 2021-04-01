@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
-class Body extends Component {
-  render() {
-    return <h1>Composant Body</h1>;
-  }
+class Home extends Component {
+    render() {
+        return <h1>Composant Home</h1>;
+    }
 }
 
-export default Body;
+export default Home;

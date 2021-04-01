@@ -1,64 +1,44 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from "axios";
 
-import Contact from "../layouts/Contact";
+import Contact from "../contacts/Contact";
 
 class Contacts extends Component {
-  state = {
-    contacts: [{id: 11, name: "John" }, {id:22, name: "Jane" }, {id: 43, name: "Bob" }],
-  };
+    state = {
+        contacts: [],
+    };
 
-  // testMethod(e) {
-  //   e.preventDefault();
-  //
-  //   this.setState({ contacts: [] });
-  //
-  //   console.log(this);
-  // }
+    // Cette méthode va effacer le contact dans le state
+    deleteContact = (id) => {
+        // On filtre les contacts du state et on en lève celui qui est concerné
+        const contacts = this.state.contacts.filter(contact => contact.id !== id);
 
-  async componentDidMount() {
-    const res = await axios.get("https://jsonplaceholder.typicode.com/users/");
-
-    // POST request with axios
-    // const post = {
-    //   title: "titre",
-    //   body: "body",
-    // };
-    //
-    // axios
-    //   .post("https://jsonplaceholder.typicode.com/posts", post)
-    //   .then((res) => {
-    //     console.log(res);
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => console.error(err));
-
-    if (res.status === 200) {
-      // Ajouter notre résultat ajax a ce qu'on a deja en state.contacts
-      // spread operator ...
-      // this.setState({ contacts: [...this.state.contacts, ...res.data] });
-      this.setState({ contacts: res.data });
+        //
+        this.setState({contacts});
     }
-  }
 
-  render() {
-    return (
-      <div>
-        <h2>Afficher les contacts</h2>
+    async componentDidMount() {
+        const res = await axios.get("https://jsonplaceholder.typicode.com/users/");
 
-          {this.state.contacts.map((contact, index) => {
-              /*  return <li key={index}>{contact.name}</li>;*/
-              return <Contact key={index} contact={contact} />
+        if (res.status === 200) {
+            this.setState({contacts: res.data});
+        }
+    }
 
-          })}
+    render() {
+        return (
+            <div>
+                <h2>Afficher les contacts</h2>
 
-        {/* Exemple de méthode custom avec bind this, la méthode est a décommenter pour tester. */}
-        {/*<form action="" onSubmit={this.testMethod.bind(this)}>*/}
-        {/*  <button>Enregistrer</button>*/}
-        {/*</form>*/}
-      </div>
-    );
-  }
+                {this.state.contacts.map((contact, index) => {
+                    // On passe notre méthode en prop dans Contact
+                    return <Contact deleteContact={this.deleteContact} key={index} contact={contact}/>
+
+                })}
+
+            </div>
+        );
+    }
 }
 
 export default Contacts;
