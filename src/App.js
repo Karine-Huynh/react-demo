@@ -1,6 +1,8 @@
 import React, {Component} from "react";
+import {Provider} from './context';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
 import Home from "./components/pages/Home";
@@ -14,20 +16,22 @@ import Jsx from "./components/cours/Jsx";
 class App extends Component {
     render() {
         return (
-            <Router>
-                <Header/>
-                <div className="container">
-                    <Switch>
-                        <Route exact path="/" component={Home}/>
-                        <Route exact path="/contact" component={Contacts}/>
-                        <Route exact path="/about" component={About}/>
-                        <Route exact path="/view/contact/:id" component={ContactDetail}/>
-                        <Route exact path="/cours" component={Jsx}/>
-                        <Route component={NotFound}/>
-                    </Switch>
-                </div>
-                <Footer/>
-            </Router>
+            <Provider>
+                <Router>
+                    <Header/>
+                    <div className="container">
+                        <Switch>
+                            <Route exact path="/" component={Home}/>
+                            <Route exact path="/contact" component={Contacts}/>
+                            <Route exact path="/about" component={About}/>
+                            <Route exact path="/view/contact/:id" component={ContactDetail}/>
+                            <Route exact path="/cours" component={Jsx}/>
+                            <Route component={NotFound}/>
+                        </Switch>
+                    </div>
+                    <Footer/>
+                </Router>
+            </Provider>
         );
     }
 }

@@ -1,42 +1,32 @@
 import React, {Component} from "react";
-import axios from "axios";
+import {Consumer} from '../../context';
 
 import Contact from "../contacts/Contact";
 
 class Contacts extends Component {
-    state = {
-        contacts: [],
-    };
-
-    async componentDidMount() {
-        const res = await axios.get("https://jsonplaceholder.typicode.com/users/");
-
-        if (res.status === 200) {
-            this.setState({contacts: res.data});
-        }
-    }
-
-    // Cette méthode va effacer le contact dans le state
-    deleteContact = (id) => {
-        // On filtre les contacts du state et on en lève celui qui est concerné
-        const contacts = this.state.contacts.filter(contact => contact.id !== id);
-        //
-        this.setState({contacts});
-    }
 
     render() {
         return (
-            <div>
-                <h2>Afficher les contacts</h2>
+            <Consumer>
+                {value => {
+                    /* render something based on the context value */
+                    const {contacts} = value;
 
-                {this.state.contacts.map((contact, index) => {
-                    // On passe notre méthode en prop dans Contact
-                    return <Contact deleteContact={this.deleteContact} key={index} contact={contact}/>
+                    return (
+                        <div>
+                            <h2>Afficher les contacts</h2>
 
-                })}
+                            {contacts.map((contact, index) => {
+                                return <Contact key={index} contact={contact}/>
 
-            </div>
-        );
+                            })}
+
+                        </div>
+                    )
+                }}
+            </Consumer>
+        )
+
     }
 }
 
