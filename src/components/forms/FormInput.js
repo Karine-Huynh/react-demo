@@ -6,7 +6,8 @@ const FormInput = (
         type,
         id,
         placeholder,
-        label
+        label,
+        onChange
     }
 ) => {
     return (
@@ -17,6 +18,7 @@ const FormInput = (
                 className="form-control"
                 id={id}
                 name={name}
+                onChange={onChange}
                 placeholder={placeholder}/>
         </div>
     );
@@ -27,7 +29,7 @@ FormInput.propTypes = {
     type: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.func.isRequired,
     error: PropTypes.string
 }
 
